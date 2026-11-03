@@ -191,7 +191,7 @@ namespace PersistentEmpiresHarmony.Patches
                 bool hasAttachedWeapons = agent.GetAttachedWeaponsCount() > 0;
                 bool hasWieldedItems = (!agent.IsMount && (agent.GetPrimaryWieldedItemIndex() >= EquipmentIndex.WeaponItemBeginSlot || agent.GetOffhandWieldedItemIndex() >= EquipmentIndex.WeaponItemBeginSlot));
                 bool isAgentInProximity = currentMission.IsAgentInProximityMap(agent);
-                bool isMissileShooter = currentMission.Missiles.Any((Mission.Missile m) => m.ShooterAgent == agent);
+                bool isMissileShooter = currentMission.MissilesList.Any((Mission.Missile m) => m.ShooterAgent == agent);
 
                 bool shouldSendAgent = (isActive || (!isActive && isMissileShooter));
 
@@ -239,7 +239,7 @@ namespace PersistentEmpiresHarmony.Patches
 
         private static void SendMissilesToPeer(NetworkCommunicator networkPeer)
         {
-            foreach (Mission.Missile missile in Mission.Current.Missiles)
+            foreach (Mission.Missile missile in Mission.Current.MissilesList)
             {
                 Vec3 velocity = missile.GetVelocity();
                 float num = velocity.Normalize();
