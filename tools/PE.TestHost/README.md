@@ -48,6 +48,8 @@ Unsolicited `{"event":...}` lines (e.g. `test.started`) are logged to stderr, no
 Timestamped, thread-safe; levels trace/debug/info/warn/error; categories `engine`, `net`, `test`. Console (stderr in
 agent mode) plus `%LOCALAPPDATA%\PE-dev\logs\testhost.log`, rotated at 1 MB keeping 5 files (`.1` to `.5`).
 
+Known limitation: rotation is not coordinated across processes; concurrent PE.TestHost instances may race on rotation (log lines can be lost, never an error).
+
 ## Why there is no `eval <C#>`
 
 Evaluating C# would have to run inside the server process, which is .NET 6 and ships Roslyn 2.8; a client-side

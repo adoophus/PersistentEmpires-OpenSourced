@@ -138,11 +138,70 @@ public class AgentModeTests
     }
 
     [Fact]
-    public async Task EventBeforeResponseWithMismatchedIdIsIgnored()
+    public async Task ResponseWithUnknownIdIsIgnored()
     {
         using var agent = new FakeAgent((id, cmd, a) => new[] { Ok(id + 100, "{}"), Ok(id, "{\"pong\":true}") });
         Assert.Equal(0, (await Run(agent.Port, "ping")).code);
     }
+
+    private static async Task AssertInfra(FakeAgent.Handler h, string cmd, string code, Action<FakeAgent>? cfg = null, params string[] extra)
+    {
+        using var agent = new FakeAgent(h);
+        cfg?.Invoke(agent);
+        var r = await Run(agent.Port, cmd, new[] { "--json", "--timeout", "5" }.Concat(extra).ToArray());
+        Assert.Equal(2, r.code);
+        Assert.Equal(code, Parse(r.stdout)["error"]!["code"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public Task MalformedOkTypeIsProtocolError() =>
+        AssertInfra((id, c, a) => new[] { $"{{\"id\":{id},\"ok\":\"yes\",\"result\":{{}}}}" }, "ping", "protocol_error");
+
+    [Fact]
+    public Task NonStringEventIsProtocolError() =>
+        AssertInfra((id, c, a) => new[] { "{\"event\":42,\"data\":{}}", Ok(id, "{\"pong\":true}") }, "ping", "protocol_error");
+
+    [Fact]
+    public async Task LineSplitAcrossTcpWritesIsReassembled()
+    {
+        using var agent = new FakeAgent(Standard) { SplitWrites = true };
+        var r = await Run(agent.Port, "ping");
+        Assert.Equal(0, r.code);
+    }
+
+    [Fact]
+    public Task ServerCloseMidRequestFailsFast() =>
+        AssertInfra((id, c, a) => new[] { FakeAgent.CloseMarker }, "ping", "connection_closed");
+
+    [Fact]
+    public async Task HelloTimeoutExitsTwo()
+    {
+        using var agent = new FakeAgent(Standard) { SendHello = false };
+        var r = await Run(agent.Port, "ping", "--json", "--timeout", "1");
+        Assert.Equal(2, r.code);
+        Assert.Equal("timeout", Parse(r.stdout)["error"]!["code"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public async Task UnknownVerbIsBadArgsWithoutConnecting()
+    {
+        var r = await Run(1, "bogus", "--json"); // port 1: would be connect_failed if we connected
+        Assert.Equal(2, r.code);
+        Assert.Equal("bad_args", Parse(r.stdout)["error"]!["code"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public Task TestResultWithoutSummaryIsProtocolError() =>
+        AssertInfra((id, c, a) => new[] { Ok(id, "{\"tests\":[]}") }, "test", "protocol_error");
+
+    [Fact]
+    public Task MalformedSummaryIsProtocolError() =>
+        AssertInfra((id, c, a) => new[] { Ok(id, "{\"summary\":{\"passed\":\"x\",\"failed\":0}}") }, "test", "protocol_error");
+
+    [Fact]
+    public Task IdlessErrorFailsPendingRequestImmediately() =>
+        AssertInfra((id, c, a) => new[] { "{\"id\":null,\"ok\":false,\"error\":{\"code\":\"bad_request\",\"message\":\"nope\"}}" },
+            "ping", "bad_request", null, "--timeout", "30");
 
     [Fact]
     public async Task BadArgsExitTwo()

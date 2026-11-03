@@ -45,8 +45,11 @@ public sealed class AgentClient : IDisposable
         _log.Info(Logger.Net, $"hello: {Hello["data"]?.ToJsonString()}");
     }
 
+    private static string? Str(JsonNode? n) => n is JsonValue v && v.TryGetValue<string>(out var s) ? s : null;
+
     private async Task ReadLoop(StreamReader reader)
     {
+        AgentException? failure = null;
         try
         {
             string? line;
@@ -58,19 +61,41 @@ public sealed class AgentClient : IDisposable
                 try { obj = JsonNode.Parse(line) as JsonObject; }
                 catch (System.Text.Json.JsonException) { obj = null; }
                 if (obj == null) { _log.Warn(Logger.Net, $"non-JSON line ignored: {line}"); continue; }
-                if (obj["event"] is JsonValue ev)
+                if (obj.ContainsKey("event"))
                 {
-                    var name = ev.GetValue<string>();
+                    if (obj["event"] is not JsonValue ev || !ev.TryGetValue<string>(out var name))
+                        throw new AgentException("protocol_error", "event name is not a string");
                     if (name == "hello") _hello.TrySetResult(obj);
                     else EventReceived?.Invoke(name, obj["data"]);
                 }
-                else if (obj["id"] is JsonValue idv && idv.TryGetValue<int>(out var id) && _pending.TryRemove(id, out var tcs))
-                    tcs.TrySetResult(obj);
+                else if (obj["id"] is JsonValue idv && idv.TryGetValue<int>(out var id))
+                {
+                    if (_pending.TryRemove(id, out var tcs)) tcs.TrySetResult(obj);
+                    else _log.Warn(Logger.Net, $"response for unknown id ignored: {line}");
+                }
+                else if (obj["ok"] is JsonValue okv && okv.TryGetValue<bool>(out var ok) && !ok)
+                {
+                    // Error without an id (e.g. bad_request): cannot be correlated, so fail whatever is pending.
+                    var err = obj["error"];
+                    failure = new AgentException(Str(err?["code"]) ?? "protocol_error", Str(err?["message"]) ?? "agent reported an error");
+                    break;
+                }
                 else _log.Warn(Logger.Net, $"unmatched message ignored: {line}");
             }
         }
         catch (Exception e) when (e is IOException or ObjectDisposedException or SocketException) { }
+        catch (Exception e)
+        {
+            failure = e as AgentException ?? new AgentException("protocol_error", $"reader failed: {e.Message}");
+        }
         _readerDone = true;
+        if (failure != null)
+        {
+            _log.Error(Logger.Net, $"[{failure.Code}] {failure.Message}");
+            _hello.TrySetException(failure);
+            foreach (var kv in _pending) if (_pending.TryRemove(kv.Key, out var t)) t.TrySetException(failure);
+            return;
+        }
         var closed = new AgentException("connection_closed", "agent closed the connection");
         _hello.TrySetException(closed);
         foreach (var kv in _pending) if (_pending.TryRemove(kv.Key, out var t)) t.TrySetException(closed);
@@ -89,10 +114,12 @@ public sealed class AgentClient : IDisposable
         {
             await _writer.WriteLineAsync(req.AsMemory(), ct);
             var resp = await tcs.Task.WaitAsync(ct);
-            if (resp["ok"]?.GetValue<bool>() == true) return resp["result"]?.DeepClone();
+            if (resp["ok"] is not JsonValue okv || !okv.TryGetValue<bool>(out var ok))
+                throw new AgentException("protocol_error", "response 'ok' is missing or not a boolean");
+            if (ok) return resp["result"]?.DeepClone();
             var err = resp["error"];
-            throw new AgentException(err?["code"]?.GetValue<string>() ?? "protocol_error",
-                err?["message"]?.GetValue<string>() ?? "agent returned an error without details");
+            throw new AgentException(Str(err?["code"]) ?? "protocol_error",
+                Str(err?["message"]) ?? "agent returned an error without details");
         }
         catch (IOException e) { throw new AgentException("connection_closed", e.Message); }
         finally { _pending.TryRemove(id, out _); }

@@ -14,6 +14,9 @@ public sealed class FakeAgent : IDisposable
     private readonly Handler _handler;
     public int Port => ((IPEndPoint)_listener.LocalEndpoint).Port;
     public List<string> Requests { get; } = new();
+    public const string CloseMarker = "<close>";
+    public bool SplitWrites { get; set; }
+    public bool SendHello { get; set; } = true;
 
     public FakeAgent(Handler handler)
     {
@@ -47,7 +50,7 @@ public sealed class FakeAgent : IDisposable
         var w = new StreamWriter(s, new UTF8Encoding(false)) { AutoFlush = true, NewLine = "\n" };
         try
         {
-            await w.WriteLineAsync(Ev("hello", "{\"agent\":\"PE.TestAgent\",\"agentVersion\":\"0.1.0\",\"protocol\":1}"));
+            if (SendHello) await w.WriteLineAsync(Ev("hello", "{\"agent\":\"PE.TestAgent\",\"agentVersion\":\"0.1.0\",\"protocol\":1}"));
             string? line;
             while ((line = await r.ReadLineAsync()) != null)
             {
@@ -55,7 +58,17 @@ public sealed class FakeAgent : IDisposable
                 var req = JsonNode.Parse(line)!;
                 var replies = _handler(req["id"]!.GetValue<int>(), req["cmd"]!.GetValue<string>(), req["args"]);
                 if (replies == null) continue;
-                foreach (var l in replies) await w.WriteLineAsync(l);
+                foreach (var l in replies)
+                {
+                    if (l == CloseMarker) return; // disposes the socket: server-side close mid-request
+                    if (SplitWrites)
+                    {
+                        await w.WriteAsync(l[..(l.Length / 2)]);
+                        await Task.Delay(100);
+                        await w.WriteAsync(l[(l.Length / 2)..] + "\n");
+                    }
+                    else await w.WriteLineAsync(l);
+                }
             }
         }
         catch (IOException) { }

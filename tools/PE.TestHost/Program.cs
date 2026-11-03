@@ -88,15 +88,20 @@ public static class Program
         Outcome outcome;
         try
         {
-            if (!string.Equals(o.Run!.Trim(), "help", StringComparison.OrdinalIgnoreCase))
-                await client.ConnectAsync(o.Host, o.Port, cts.Token);
-            outcome = await ExecuteAsync(client, o.Run!, cts.Token);
+            var (verb, _, bad) = ParseCommand(o.Run!);
+            if (bad != null) outcome = Fail(2, "bad_args", bad);
+            else
+            {
+                if (verb != "help") await client.ConnectAsync(o.Host, o.Port, cts.Token);
+                outcome = await ExecuteAsync(client, o.Run!, cts.Token);
+            }
         }
         catch (OperationCanceledException) when (!ct.IsCancellationRequested)
         {
             outcome = Fail(2, "timeout", $"timed out after {o.TimeoutSec}s");
         }
         catch (AgentException e) { outcome = Fail(2, e.Code, e.Message); }
+        catch (Exception e) when (e is not OperationCanceledException) { outcome = Fail(2, "internal_error", e.Message); }
         log.Info(Logger.Engine, $"'{o.Run}' -> exit {outcome.ExitCode} in {sw.ElapsedMilliseconds} ms");
         if (o.Json) stdout.WriteLine(Envelope(o.Run!, outcome, sw.ElapsedMilliseconds));
         else stdout.WriteLine(outcome.Human);
@@ -130,10 +135,8 @@ public static class Program
     /// <summary>Runs one REPL-style command line against a connected client.</summary>
     public static async Task<Outcome> ExecuteAsync(AgentClient client, string line, CancellationToken ct)
     {
-        line = line.Trim();
-        var sp = line.IndexOf(' ');
-        var verb = (sp < 0 ? line : line[..sp]).ToLowerInvariant();
-        var rest = sp < 0 ? "" : line[(sp + 1)..].Trim();
+        var (verb, rest, bad) = ParseCommand(line);
+        if (bad != null) return Fail(2, "bad_args", bad);
         try
         {
             switch (verb)
@@ -154,7 +157,6 @@ public static class Program
                 }
                 case "exec":
                 {
-                    if (rest.Length == 0) return Fail(2, "bad_args", "usage: exec <text>");
                     var r = await client.SendAsync("exec", new JsonObject { ["command"] = rest }, ct);
                     return Ok(r, r?["output"]?.ToString() ?? "");
                 }
@@ -167,6 +169,22 @@ public static class Program
             }
         }
         catch (AgentException e) { return Fail(2, e.Code, e.Message); }
+        catch (Exception e) when (e is not OperationCanceledException) { return Fail(2, "internal_error", e.Message); }
+    }
+
+    /// <summary>Splits and validates a command line without touching the network.</summary>
+    public static (string verb, string rest, string? error) ParseCommand(string line)
+    {
+        line = line.Trim();
+        var sp = line.IndexOf(' ');
+        var verb = (sp < 0 ? line : line[..sp]).ToLowerInvariant();
+        var rest = sp < 0 ? "" : line[(sp + 1)..].Trim();
+        return verb switch
+        {
+            "help" or "ping" or "status" or "test" => (verb, rest, null),
+            "exec" => rest.Length == 0 ? (verb, rest, "usage: exec <text>") : (verb, rest, null),
+            _ => (verb, rest, $"unknown command '{verb}' (try 'help')"),
+        };
     }
 
     private static Outcome Ok(JsonNode? r, string human) => new(true, 0, r, null, null, human);
@@ -174,8 +192,11 @@ public static class Program
     private static Outcome TestOutcome(JsonNode? r)
     {
         var tests = r?["tests"] as JsonArray ?? new JsonArray();
+        static bool IsInt(JsonNode? n) => n is JsonValue v && v.TryGetValue<int>(out _);
         var sum = r?["summary"];
-        var failed = (int?)sum?["failed"] ?? tests.Count(t => t?["status"]?.ToString() == "failed");
+        if (sum is not JsonObject || !IsInt(sum["passed"]) || !IsInt(sum["failed"]))
+            return Fail(2, "protocol_error", "test result has no valid 'summary' (passed/failed)");
+        var failed = Math.Max((int)sum["failed"]!, tests.Count(t => t?["status"]?.ToString() == "failed"));
         var human = new System.Text.StringBuilder();
         foreach (var t in tests)
         {
