@@ -82,7 +82,7 @@ namespace PersistentEmpiresHarmony.Patches
             if (!agent.IsActive())
             {
                 GameNetwork.BeginModuleEventAsServer(networkPeer);
-                GameNetwork.WriteMessage(new MakeAgentDead(agent.Index, agent.State == AgentState.Killed, agent.GetCurrentActionValue(0)));
+                GameNetwork.WriteMessage(new MakeAgentDead(agent.Index, agent.State == AgentState.Killed, agent.GetCurrentAction(0)));
                 GameNetwork.EndModuleEventAsServer();
             }
         }
