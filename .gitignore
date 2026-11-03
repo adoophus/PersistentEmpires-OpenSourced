@@ -2,3 +2,8 @@
 /.vscode
 /publish
 /Directory.Build.props.user
+
+# Agent-local state
+/.claude/worktrees/
+/.claude/current-task.md
+/.claude/settings.local.json
