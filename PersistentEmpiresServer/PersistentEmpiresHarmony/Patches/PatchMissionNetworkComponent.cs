@@ -156,13 +156,13 @@ namespace PersistentEmpiresHarmony.Patches
                     GameNetwork.EndModuleEventAsServer();
                 }
             }
-            EquipmentIndex wieldedItemIndex = agent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
+            EquipmentIndex wieldedItemIndex = agent.GetPrimaryWieldedItemIndex();
             int num5 = ((wieldedItemIndex != EquipmentIndex.None) ? agent.Equipment[wieldedItemIndex].CurrentUsageIndex : 0);
             GameNetwork.BeginModuleEventAsServer(networkPeer);
             GameNetwork.WriteMessage(new SetWieldedItemIndex(agent.Index, false, true, true, wieldedItemIndex, num5));
             GameNetwork.EndModuleEventAsServer();
             GameNetwork.BeginModuleEventAsServer(networkPeer);
-            GameNetwork.WriteMessage(new SetWieldedItemIndex(agent.Index, true, true, true, agent.GetWieldedItemIndex(Agent.HandIndex.OffHand), num5));
+            GameNetwork.WriteMessage(new SetWieldedItemIndex(agent.Index, true, true, true, agent.GetOffhandWieldedItemIndex(), num5));
             GameNetwork.EndModuleEventAsServer();
             MBActionSet actionSet = agent.ActionSet;
             if (actionSet.IsValid)
@@ -189,7 +189,7 @@ namespace PersistentEmpiresHarmony.Patches
                 bool isActive = state == AgentState.Active;
                 bool isKilledOrUnconscious = (state == AgentState.Killed || state == AgentState.Unconscious);
                 bool hasAttachedWeapons = agent.GetAttachedWeaponsCount() > 0;
-                bool hasWieldedItems = (!agent.IsMount && (agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) >= EquipmentIndex.WeaponItemBeginSlot || agent.GetWieldedItemIndex(Agent.HandIndex.OffHand) >= EquipmentIndex.WeaponItemBeginSlot));
+                bool hasWieldedItems = (!agent.IsMount && (agent.GetPrimaryWieldedItemIndex() >= EquipmentIndex.WeaponItemBeginSlot || agent.GetOffhandWieldedItemIndex() >= EquipmentIndex.WeaponItemBeginSlot));
                 bool isAgentInProximity = currentMission.IsAgentInProximityMap(agent);
                 bool isMissileShooter = currentMission.Missiles.Any((Mission.Missile m) => m.ShooterAgent == agent);
 
