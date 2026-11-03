@@ -3,3 +3,8 @@
 /publish
 /PersistentEmpiresLib/PersistentEmpiresLib/ClientReferences/*.dll
 /PersistentEmpiresLib/PersistentEmpiresLib/ServerReferences/*.dll
+
+# Agent-local state
+/.claude/worktrees/
+/.claude/current-task.md
+/.claude/settings.local.json
