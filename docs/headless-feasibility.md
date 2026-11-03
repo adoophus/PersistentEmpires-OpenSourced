@@ -13,7 +13,7 @@ Citations use `Assembly.dll!Type.Member` and come from `ilspycmd` decompiles of 
 | Server host | Native `DedicatedCustomServer.Starter.exe` → `Rgl.dll` embeds **CoreCLR (.NET 6)**, bundled privately in `bin\Win64_Shipping_Server\Microsoft.NETCore.App` | `Rgl.dll!WotsMainNativeCoreCLR`, `TaleWorlds.DotNet.dll!Controller.SetEngineMethodsAsHostedDotNetCore` |
 | Packet serialization | **Native.** Every `GameNetworkMessage.Write*ToPacket/Read*FromPacket` calls `MBAPI.IMBNetwork`. Only the compression ranges are managed. UDP transport, reliability and handshake are all native. | `TaleWorlds.MountAndBlade.dll!GameNetworkMessage`, `!MBAPI.IMBNetwork` |
 | Client join path | `LobbyClient.RequestJoinCustomGame` → `LobbyGameStateCustomGameClient.StartMultiplayer` → `GameNetwork.StartMultiplayerOnClient` → native `IMBNetwork.InitializeClientSide`. Needs a lobby login (Steam). | `TaleWorlds.MountAndBlade.Diamond.dll`, `TaleWorlds.MountAndBlade.Multiplayer.dll` |
-| Headless server | No "headless" flag is needed: the server is already a graphics-less engine build. The client **cannot** reuse this path (`GameNetwork.IsDedicatedServer` is constant `false` on the client, and the client uses a different native lib). | `TaleWorlds.MountAndBlade.dll!GameNetwork.IsDedicatedServer` |
+| Headless server | No "headless" flag is needed: the server is already a graphics-less engine build. The client **cannot** reuse this path (`GameNetwork.IsDedicatedServer` is constant `false` on the client, and the client uses a different native lib). | `GameNetwork.IsDedicatedServer => false` in client `bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.dll`, `=> true` in the server's copy |
 | Lobby dependency | The server logs into the TaleWorlds lobby with a token from `/dedicatedcustomserverauthtoken` or `Tokens\DedicatedCustomServerAuthToken.txt`. | `DedicatedCustomServerIntermissionManagerHandler` ctor, `DedicatedCustomGameServer.Connect` |
 | Mod code in server | SubModules load normally. PE already Harmony-patches `GameNetwork.AddNewPlayerOnServer`. A console command system exists. | `DedicatedServerConsoleCommandManager`, `[CommandLineArgumentFunction]` |
 | Bot peers | The shipped bot branch of `GameNetwork.AddNewPlayerOnServer` null-derefs. A synthetic peer is possible via `GameNetwork.HandleNewClientConnect(PlayerConnectionInfo, bool)` or a Harmony patch, but a native peer slot is always allocated. AI agents can be spawned and driven: `Mission.SpawnAgent`, `Agent.MovementInputVector`, `Agent.SetScriptedPosition`. | `TaleWorlds.MountAndBlade.dll!GameNetwork`, `!Agent` |
@@ -53,6 +53,8 @@ The engine boots fast, which makes Tier B's < 60 s target realistic. **Without a
 - **Blocker, the lobby token. Two options to spike, in this order:**
   1. **Token (yours):** you generate a dedicated-server auth token in the game client and save it to `Tokens\DedicatedCustomServerAuthToken.txt`. Simple and supported, but token lifetime is unverified and it can't be used in CI.
   2. **Offline mode:** `PE.TestAgent` Harmony-patches the lobby connect/shutdown path so the server never contacts TaleWorlds. It only changes the local test process, never shipped PE code. Feasibility is unverified: our module must load before the login, and the log shows module data loading before the login POST, which is promising.
+
+> **Tier B runs locally only.** The token can't be used in CI. CI covers Tier A and the engine-free builds.
 
 ### Tier C, real-client automation: **DEFER**
 - Needs Steam login, the lobby join and a full renderer.
