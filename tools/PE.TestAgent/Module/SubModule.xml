@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+	<Name value="PE Test Agent"/>
+	<Id value="PETestAgent"/>
+	<Version value="v0.1.0"/>
+	<ModuleCategory value="Multiplayer"/>
+	<ModuleType value="Community"/>
+	<DependedModules>
+		<DependedModule Id="Native"/>
+		<DependedModule Id="Multiplayer"/>
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="PE.TestAgent"/>
+			<DLLName value="PE.TestAgent.dll"/>
+			<SubModuleClassType value="PE.TestAgent.TestAgentSubModule"/>
+			<Tags>
+				<Tag key="DedicatedServerType" value="custom"/>
+			</Tags>
+		</SubModule>
+	</SubModules>
+</Module>
