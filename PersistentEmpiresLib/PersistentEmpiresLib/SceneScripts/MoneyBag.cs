@@ -72,9 +72,9 @@ namespace PersistentEmpiresLib.SceneScripts
             descriptionMessage.SetTextVariable("KEY", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13)));
             base.DescriptionMessage = descriptionMessage;
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Money Bag";
+            return new TaleWorlds.Localization.TextObject("Money Bag");
         }
         public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
         {

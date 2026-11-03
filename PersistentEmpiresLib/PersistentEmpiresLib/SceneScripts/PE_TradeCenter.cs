@@ -105,9 +105,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return this.castlesBehavior.castles[this.CastleIndex].CastleName;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Trading Center";
+            return new TaleWorlds.Localization.TextObject("Trading Center");
         }
     }
 }

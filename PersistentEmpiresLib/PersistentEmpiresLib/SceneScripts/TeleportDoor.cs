@@ -30,9 +30,9 @@ namespace PersistentEmpiresLib.SceneScripts
             descriptionMessage.SetTextVariable("KEY", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13)));
             base.DescriptionMessage = descriptionMessage;
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Use Door";
+            return new TaleWorlds.Localization.TextObject("Use Door");
         }
         public PE_CastleBanner GetCastleBanner()
         {

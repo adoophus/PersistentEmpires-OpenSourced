@@ -168,9 +168,9 @@ namespace PersistentEmpiresLib.SceneScripts
                 }
             }
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Horse Market";
+            return new TaleWorlds.Localization.TextObject("Horse Market");
         }
 
         protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)

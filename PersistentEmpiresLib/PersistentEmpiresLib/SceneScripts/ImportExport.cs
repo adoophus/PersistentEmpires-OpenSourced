@@ -70,9 +70,9 @@ namespace PersistentEmpiresLib.SceneScripts
         {
             return this.goodItems;
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Import/Export";
+            return new TaleWorlds.Localization.TextObject("Import/Export");
         }
 
         public override void OnUse(Agent userAgent)

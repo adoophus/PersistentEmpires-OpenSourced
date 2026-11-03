@@ -72,9 +72,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.NeededReceipt = this.ParseReceipts(this.NeededItemRecipies);
             this.DropReceipt = this.ParseReceipts(this.DropItemRecipies);
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Animal Spawner";
+            return new TaleWorlds.Localization.TextObject("Animal Spawner");
         }
         public void RemoveSpawnedAnimal(Agent animal)
         {

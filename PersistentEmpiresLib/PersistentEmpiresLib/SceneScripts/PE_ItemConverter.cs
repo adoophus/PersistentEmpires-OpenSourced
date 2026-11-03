@@ -39,9 +39,9 @@ namespace PersistentEmpiresLib.SceneScripts
             }
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return this.Name;
+            return new TaleWorlds.Localization.TextObject(this.Name);
         }
 
         protected override void OnInit()

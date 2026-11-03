@@ -109,9 +109,9 @@ namespace PersistentEmpiresLib.SceneScripts
         {
             return MBObjectManager.Instance.GetObjectTypeList<MultiplayerClassDivisions.MPHeroClass>().Select((value, index) => new { value, index }).First((a) => a.value.HeroCharacter.StringId == this.ClassId).index;
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Change Class";
+            return new TaleWorlds.Localization.TextObject("Change Class");
         }
         public PE_CastleBanner GetCastleBanner()
         {

@@ -248,9 +248,9 @@ namespace PersistentEmpiresLib.SceneScripts
             }
             base.OnUse(userAgent);
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Item Gathering";
+            return new TaleWorlds.Localization.TextObject("Item Gathering");
         }
 
     }

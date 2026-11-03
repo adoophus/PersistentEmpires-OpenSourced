@@ -235,9 +235,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return forStandingPoint;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=}Bloc's Ship").ToString();
+            return new TextObject("{=}Bloc's Ship");
         }
 
         public override bool IsStray()

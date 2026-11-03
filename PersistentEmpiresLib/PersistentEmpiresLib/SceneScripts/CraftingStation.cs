@@ -124,9 +124,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.craftingComponent = Mission.Current.GetMissionBehavior<CraftingComponent>();
             this.LoadCraftables();
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Crafting Station Named As " + this.StationName;
+            return new TaleWorlds.Localization.TextObject("Crafting Station Named As " + this.StationName);
         }
 
 

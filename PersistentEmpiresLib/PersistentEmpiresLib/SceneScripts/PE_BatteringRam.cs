@@ -614,9 +614,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BAA RID: 11178 RVA: 0x000A9856 File Offset: 0x000A7A56
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=MaBSSg7I}Battering Ram", null).ToString();
+            return new TextObject("{=MaBSSg7I}Battering Ram", null);
         }
 
         // Token: 0x06002BAB RID: 11179 RVA: 0x000A9868 File Offset: 0x000A7A68

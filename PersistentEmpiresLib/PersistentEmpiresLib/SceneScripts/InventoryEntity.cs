@@ -170,9 +170,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return this.ValidateValues();
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Use Inventory";
+            return new TaleWorlds.Localization.TextObject("Use Inventory");
         }
         public PE_CastleBanner GetCastleBanner()
         {

@@ -163,9 +163,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.AttachedTo = attachableAgent;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Attach";
+            return new TaleWorlds.Localization.TextObject("Attach");
         }
 
         public bool IsStray()

@@ -273,9 +273,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BD2 RID: 11218 RVA: 0x000AA32D File Offset: 0x000A852D
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=6wZUG0ev}Gate", null).ToString();
+            return new TextObject("{=6wZUG0ev}Gate", null);
         }
 
         // Token: 0x06002BD3 RID: 11219 RVA: 0x000AA340 File Offset: 0x000A8540

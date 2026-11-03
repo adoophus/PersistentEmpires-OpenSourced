@@ -113,9 +113,9 @@ namespace PersistentEmpiresLib.SceneScripts
 
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Castle Banner";
+            return new TaleWorlds.Localization.TextObject("Castle Banner");
         }
 
         public override void OnUseStopped(Agent userAgent, bool isSuccessful, int preferenceIndex)

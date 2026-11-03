@@ -132,9 +132,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return false;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Use Door";
+            return new TaleWorlds.Localization.TextObject("Use Door");
         }
     }
 }
