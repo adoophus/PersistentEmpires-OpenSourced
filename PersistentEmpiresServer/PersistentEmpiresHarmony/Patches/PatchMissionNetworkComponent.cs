@@ -52,7 +52,7 @@ namespace PersistentEmpiresHarmony.Patches
             {
                 MBDebug.Print("Syncing a team to peer: " + peer.UserName + " Team Index: " + team.TeamIndex.ToString(), 0, Debug.DebugColor.Cyan);
                 GameNetwork.BeginModuleEventAsServer(peer);
-                GameNetwork.WriteMessage(new AddTeam(team.TeamIndex, team.Side, team.Color, team.Color2, (team.Banner != null) ? BannerCode.CreateFrom(team.Banner).Code : string.Empty, team.IsPlayerGeneral, team.IsPlayerSergeant));
+                GameNetwork.WriteMessage(new AddTeam(team.TeamIndex, team.Side, team.Color, team.Color2, (team.Banner != null) ? team.Banner.BannerCode : string.Empty, team.IsPlayerGeneral, team.IsPlayerSergeant));
                 GameNetwork.EndModuleEventAsServer();
             }
         }
