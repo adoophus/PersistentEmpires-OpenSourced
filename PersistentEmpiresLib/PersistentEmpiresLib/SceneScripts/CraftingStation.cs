@@ -131,7 +131,7 @@ namespace PersistentEmpiresLib.SceneScripts
 
 
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             Debug.Print("[USING LOG] AGENT USE " + this.GetType().Name);
             if (!base.IsUsable(userAgent))
@@ -139,7 +139,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 userAgent.StopUsingGameObjectMT(false);
                 return;
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             userAgent.StopUsingGameObjectMT(true);
             if (GameNetwork.IsServer)
             {

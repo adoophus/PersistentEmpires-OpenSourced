@@ -584,9 +584,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06000244 RID: 580 RVA: 0x0000F764 File Offset: 0x0000D964
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             this._equipmentIndexMainHand = base.UserAgent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
             this._equipmentIndexOffHand = base.UserAgent.GetWieldedItemIndex(Agent.HandIndex.OffHand);
             this._state = PE_AnimationPoint.State.NotUsing;

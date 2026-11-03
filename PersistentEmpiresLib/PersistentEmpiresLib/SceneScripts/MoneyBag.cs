@@ -115,10 +115,10 @@ namespace PersistentEmpiresLib.SceneScripts
                 }
             }
         }
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (base.HasUser) return;
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             // userAgent.StopUsingGameObjectMT(true, true, false);
             if (GameNetwork.IsServer)
             {

@@ -162,7 +162,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (GameNetwork.IsServer)
             {
@@ -246,7 +246,7 @@ namespace PersistentEmpiresLib.SceneScripts
             {
                 PEInformationManager.StartCounter("Gathering " + this.DropsItemObject.Name.ToString() + "...", this.AnimationDurationInSeconds);
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
         }
         public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {

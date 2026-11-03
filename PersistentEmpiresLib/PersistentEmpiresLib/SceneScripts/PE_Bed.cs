@@ -117,7 +117,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (GameNetwork.IsServer)
             {
@@ -153,7 +153,7 @@ namespace PersistentEmpiresLib.SceneScripts
             {
                 PEInformationManager.StartCounter("Sleeping...", this.AnimationDurationInSeconds);
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
         }
     }
 }

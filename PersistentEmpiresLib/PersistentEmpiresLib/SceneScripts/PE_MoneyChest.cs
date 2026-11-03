@@ -151,14 +151,14 @@ namespace PersistentEmpiresLib.SceneScripts
         {
             PE_MoneyChest.OnMoneyChestAccessed(this);
         }
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (!base.IsUsable(userAgent))
             {
                 userAgent.StopUsingGameObjectMT(false);
                 return;
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             if (userAgent.IsMine && OnMoneyChestAccessed != null)
             {
                 OnMoneyChestAccessed(this);

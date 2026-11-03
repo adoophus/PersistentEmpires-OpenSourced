@@ -192,7 +192,7 @@ namespace PersistentEmpiresLib.SceneScripts
             // userAgent.StopUsingGameObjectMT(true);            
         }        
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             float distance = base.GameEntity.GetGlobalFrame().origin.Distance(userAgent.Position);
             if (distance >= this.Distance)
@@ -201,7 +201,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 return;
             }
 
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             Debug.Print("[USING LOG] AGENT USE " + this.GetType().Name + " ID " + this.InventoryId + " PLAYER " + userAgent.MissionPeer.DisplayedName);
             if (this.GameEntity == null || this.InteractionEntity == null) return;
 

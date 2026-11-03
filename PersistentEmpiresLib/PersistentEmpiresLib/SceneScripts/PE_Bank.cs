@@ -26,10 +26,10 @@ namespace PersistentEmpiresLib.SceneScripts
             return new TaleWorlds.Localization.TextObject("Bank");
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
 
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             if (GameNetwork.IsServer)
             {
                 this.bankingComponent.OpenBankForPeer(userAgent.MissionPeer.GetNetworkPeer(), this);

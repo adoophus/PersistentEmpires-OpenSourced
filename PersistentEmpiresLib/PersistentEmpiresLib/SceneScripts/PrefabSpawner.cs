@@ -115,9 +115,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return new TaleWorlds.Localization.TextObject("Siege Workshop");
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             userAgent.StopUsingGameObjectMT(true);
             if (GameNetwork.IsServer)
             {

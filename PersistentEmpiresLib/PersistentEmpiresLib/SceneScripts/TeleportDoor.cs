@@ -70,7 +70,7 @@ namespace PersistentEmpiresLib.SceneScripts
             if (f.doorManagers.Contains(player.VirtualPlayer.ToPlayerId()) || f.marshalls.Contains(player.VirtualPlayer.ToPlayerId()) || f.lordId == player.VirtualPlayer.ToPlayerId()) return true;
             return false;
         }
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             Debug.Print("[USING LOG] AGENT USE " + this.GetType().Name);
 
@@ -79,7 +79,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 userAgent.StopUsingGameObjectMT(false);
                 return;
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             userAgent.StopUsingGameObjectMT(true);
             if (GameNetwork.IsServer)
             {

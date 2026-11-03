@@ -75,7 +75,7 @@ namespace PersistentEmpiresLib.SceneScripts
             return new TaleWorlds.Localization.TextObject("Import/Export");
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             Debug.Print("[USING LOG] AGENT USE " + this.GetType().Name);
 
@@ -84,7 +84,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 userAgent.StopUsingGameObjectMT(false);
                 return;
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             if (GameNetwork.IsServer)
             {
                 this.importExportComponent.OpenImportExportForPeer(userAgent.MissionPeer.GetNetworkPeer(), this);

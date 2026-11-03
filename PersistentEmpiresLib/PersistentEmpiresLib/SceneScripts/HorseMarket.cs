@@ -103,9 +103,9 @@ namespace PersistentEmpiresLib.SceneScripts
                 InformationManager.HideTooltip();
             }
         }
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             if (GameNetwork.IsServer)
             {
                 Debug.Print("[USING LOG] AGENT USE " + this.GetType().Name);

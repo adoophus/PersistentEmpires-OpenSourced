@@ -127,9 +127,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.AttachToAgentAux(attachedTo);
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             Debug.Print("[USING LOG] AGENT USING " + this.GetType().Name);
             if (this.AttachedTo == null)
             {

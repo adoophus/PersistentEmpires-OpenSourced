@@ -206,7 +206,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
 
             if (GameNetwork.IsServer)
@@ -277,7 +277,7 @@ namespace PersistentEmpiresLib.SceneScripts
                     userAgent.SetTargetPosition(userAgent.GetWorldFrame().Origin.AsVec2);
                 }
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
 
         }
     }
