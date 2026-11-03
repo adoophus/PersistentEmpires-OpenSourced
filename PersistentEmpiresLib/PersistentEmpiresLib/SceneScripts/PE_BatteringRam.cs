@@ -498,7 +498,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 if (standingPoint.HasUser && standingPoint.GameEntity.HasTag("pull"))
                 {
                     ActionIndexCache actionCodeForStandingPoint = this.GetActionCodeForStandingPoint(standingPoint, powerStage);
-                    if (standingPoint.UserAgent.GetCurrentActionValue(1) == actionCodeForStandingPoint)
+                    if (standingPoint.UserAgent.GetCurrentAction(1) == actionCodeForStandingPoint)
                     {
                         standingPoint.UserAgent.SetCurrentActionProgress(1, progress);
                     }

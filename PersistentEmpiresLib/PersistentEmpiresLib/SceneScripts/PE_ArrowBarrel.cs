@@ -104,11 +104,11 @@ namespace PersistentEmpiresLib.SceneScripts
                     if (standingPoint.HasUser)
                     {
                         Agent userAgent = standingPoint.UserAgent;
-                        ActionIndexValueCache currentActionValue = userAgent.GetCurrentActionValue(0);
-                        ActionIndexValueCache currentActionValue2 = userAgent.GetCurrentActionValue(1);
-                        if (!(currentActionValue2 == ActionIndexValueCache.act_none) || (!(currentActionValue == PE_ArrowBarrel.act_pickup_down_begin) && !(currentActionValue == PE_ArrowBarrel.act_pickup_down_begin_left_stance)))
+                        ActionIndexCache currentActionValue = userAgent.GetCurrentAction(0);
+                        ActionIndexCache currentActionValue2 = userAgent.GetCurrentAction(1);
+                        if (!(currentActionValue2 == ActionIndexCache.act_none) || (!(currentActionValue == PE_ArrowBarrel.act_pickup_down_begin) && !(currentActionValue == PE_ArrowBarrel.act_pickup_down_begin_left_stance)))
                         {
-                            if (currentActionValue2 == ActionIndexValueCache.act_none && (currentActionValue == PE_ArrowBarrel.act_pickup_down_end || currentActionValue == PE_ArrowBarrel.act_pickup_down_end_left_stance))
+                            if (currentActionValue2 == ActionIndexCache.act_none && (currentActionValue == PE_ArrowBarrel.act_pickup_down_end || currentActionValue == PE_ArrowBarrel.act_pickup_down_end_left_stance))
                             {
                                 if (isParallel)
                                 {
@@ -131,7 +131,7 @@ namespace PersistentEmpiresLib.SceneScripts
                                     userAgent.StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
                                 }
                             }
-                            else if (currentActionValue2 != ActionIndexValueCache.act_none || !userAgent.SetActionChannel(0, userAgent.GetIsLeftStance() ? PE_ArrowBarrel.act_pickup_down_begin_left_stance : PE_ArrowBarrel.act_pickup_down_begin, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true))
+                            else if (currentActionValue2 != ActionIndexCache.act_none || !userAgent.SetActionChannel(0, userAgent.GetIsLeftStance() ? PE_ArrowBarrel.act_pickup_down_begin_left_stance : PE_ArrowBarrel.act_pickup_down_begin, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true))
                             {
                                 if (isParallel)
                                 {
