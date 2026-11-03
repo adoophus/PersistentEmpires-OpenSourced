@@ -3,7 +3,6 @@
 		<TargetFramework>net472</TargetFramework>
 		<RootNamespace>PersistentEmpiresSave</RootNamespace>
 		<AssemblyName>PersistentEmpiresSave</AssemblyName>
-		<TaleworldsReferencePath>..\..\PersistentEmpiresLib\PersistentEmpiresLib\ServerReferences</TaleworldsReferencePath>
 		<LangVersion>7.3</LangVersion>
 		<Product>Persistent Empires Save</Product>
 		<Copyright>Copyright © 2023</Copyright>
@@ -26,36 +25,36 @@
 		<Reference Include="System.IdentityModel" />
 		<Reference Include="System.Transactions" />
 		<Reference Include="TaleWorlds.Core">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.Core.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.Core.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.DotNet">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.DotNet.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.DotNet.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.Engine">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.Engine.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.Engine.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.Library">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.Library.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.Library.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.ModuleManager">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.ModuleManager.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.ModuleManager.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.MountAndBlade">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.MountAndBlade.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.MountAndBlade.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.ObjectSystem">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.ObjectSystem.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.ObjectSystem.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 		<Reference Include="TaleWorlds.PlayerServices">
-			<HintPath>$(TaleworldsReferencePath)\TaleWorlds.PlayerServices.dll</HintPath>
-			<Private>False</Private>
+			<HintPath>$(BannerlordServerBin)\TaleWorlds.PlayerServices.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
 
