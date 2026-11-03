@@ -110,14 +110,14 @@ namespace PersistentEmpiresLib.SceneScripts
             this.SpawnedPrefabs = new List<GameEntity>();
             this.StrayEntity = new Dictionary<GameEntity, IStray>();
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Siege Workshop";
+            return new TaleWorlds.Localization.TextObject("Siege Workshop");
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             userAgent.StopUsingGameObjectMT(true);
             if (GameNetwork.IsServer)
             {

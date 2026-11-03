@@ -273,9 +273,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BD2 RID: 11218 RVA: 0x000AA32D File Offset: 0x000A852D
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=6wZUG0ev}Gate", null).ToString();
+            return new TextObject("{=6wZUG0ev}Gate", null);
         }
 
         // Token: 0x06002BD3 RID: 11219 RVA: 0x000AA340 File Offset: 0x000A8540
@@ -669,7 +669,7 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BE2 RID: 11234 RVA: 0x000AAF30 File Offset: 0x000A9130
-        public GameEntity GetTargetEntity()
+        public WeakGameEntity GetTargetEntity()
         {
             return base.GameEntity;
         }
@@ -681,9 +681,24 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BE4 RID: 11236 RVA: 0x000AAF3B File Offset: 0x000A913B
-        public GameEntity Entity()
+        public WeakGameEntity Entity()
         {
             return base.GameEntity;
+        }
+
+        public Vec3 GetTargetGlobalVelocity()
+        {
+            return Vec3.Zero;
+        }
+
+        public bool IsDestructable()
+        {
+            return base.GameEntity.HasScriptOfType<DestructableComponent>();
+        }
+
+        public (Vec3, Vec3) ComputeGlobalPhysicsBoundingBoxMinMax()
+        {
+            return base.GameEntity.ComputeGlobalPhysicsBoundingBoxMinMax();
         }
 
         // Token: 0x06002BE5 RID: 11237 RVA: 0x000AAF44 File Offset: 0x000A9144

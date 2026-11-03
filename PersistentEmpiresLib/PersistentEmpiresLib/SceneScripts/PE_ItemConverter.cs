@@ -24,14 +24,14 @@ namespace PersistentEmpiresLib.SceneScripts
         public int RequiredSkill = 10;
         public bool HideItemOnAnimation = false;
         private EquipmentIndex HiddenItemIndex = EquipmentIndex.None;
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get
             {
                 return true;
             }
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get
             {
@@ -39,9 +39,9 @@ namespace PersistentEmpiresLib.SceneScripts
             }
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return this.Name;
+            return new TaleWorlds.Localization.TextObject(this.Name);
         }
 
         protected override void OnInit()
@@ -132,7 +132,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (GameNetwork.IsServer)
             {
@@ -186,7 +186,7 @@ namespace PersistentEmpiresLib.SceneScripts
             {
                 PEInformationManager.StartCounter("Converting...", this.AnimationDurationInSeconds);
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
         }
     }
 }

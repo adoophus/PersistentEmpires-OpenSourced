@@ -498,7 +498,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 if (standingPoint.HasUser && standingPoint.GameEntity.HasTag("pull"))
                 {
                     ActionIndexCache actionCodeForStandingPoint = this.GetActionCodeForStandingPoint(standingPoint, powerStage);
-                    if (standingPoint.UserAgent.GetCurrentActionValue(1) == actionCodeForStandingPoint)
+                    if (standingPoint.UserAgent.GetCurrentAction(1) == actionCodeForStandingPoint)
                     {
                         standingPoint.UserAgent.SetCurrentActionProgress(1, progress);
                     }
@@ -614,9 +614,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BAA RID: 11178 RVA: 0x000A9856 File Offset: 0x000A7A56
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=MaBSSg7I}Battering Ram", null).ToString();
+            return new TextObject("{=MaBSSg7I}Battering Ram", null);
         }
 
         // Token: 0x06002BAB RID: 11179 RVA: 0x000A9868 File Offset: 0x000A7A68
@@ -715,9 +715,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06002BB3 RID: 11187 RVA: 0x000A99F4 File Offset: 0x000A7BF4
-        public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+        public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord, bool allowVisibilityUpdate = true)
         {
-            base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+            base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord, allowVisibilityUpdate);
             PE_BatteringRam.BatteringRamRecord batteringRamRecord = (PE_BatteringRam.BatteringRamRecord)synchedMissionObjectReadableRecord.Item2;
             this.HasArrivedAtTarget = batteringRamRecord.HasArrivedAtTarget;
             this._state = (PE_BatteringRam.RamState)batteringRamRecord.State;

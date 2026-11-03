@@ -23,8 +23,8 @@ namespace PersistentEmpiresLib.SceneScripts
         public int CaptureDuration = 5;
         public string CaptureItem = "pe_banner";
 
-        protected override bool LockUserFrames { get => false; }
-        protected override bool LockUserPositions { get => false; }
+        public override bool LockUserFrames { get => false; }
+        public override bool LockUserPositions { get => false; }
 
         public long UseStartedAt { get; private set; }
         public long UseWillEndAt { get; private set; }
@@ -113,9 +113,9 @@ namespace PersistentEmpiresLib.SceneScripts
 
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Castle Banner";
+            return new TaleWorlds.Localization.TextObject("Castle Banner");
         }
 
         public override void OnUseStopped(Agent userAgent, bool isSuccessful, int preferenceIndex)
@@ -155,7 +155,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
             if (GameNetwork.IsServer)
             {
@@ -213,7 +213,7 @@ namespace PersistentEmpiresLib.SceneScripts
             this.UseStartedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             this.UseWillEndAt = this.UseStartedAt + this.CaptureDuration;
             userAgent.SetTargetPosition(userAgent.Position.AsVec2);
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
         }
     }
 }

@@ -26,11 +26,11 @@ namespace PersistentEmpiresLib.SceneScripts
         public long UseStartedAt { get; private set; }
         public long UseWillEndAt { get; private set; }
 
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get => false;
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get => false;
         }
@@ -109,9 +109,9 @@ namespace PersistentEmpiresLib.SceneScripts
         {
             return MBObjectManager.Instance.GetObjectTypeList<MultiplayerClassDivisions.MPHeroClass>().Select((value, index) => new { value, index }).First((a) => a.value.HeroCharacter.StringId == this.ClassId).index;
         }
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Change Class";
+            return new TaleWorlds.Localization.TextObject("Change Class");
         }
         public PE_CastleBanner GetCastleBanner()
         {
@@ -206,7 +206,7 @@ namespace PersistentEmpiresLib.SceneScripts
             userAgent.ClearTargetFrame();
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
 
             if (GameNetwork.IsServer)
@@ -277,7 +277,7 @@ namespace PersistentEmpiresLib.SceneScripts
                     userAgent.SetTargetPosition(userAgent.GetWorldFrame().Origin.AsVec2);
                 }
             }
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
 
         }
     }

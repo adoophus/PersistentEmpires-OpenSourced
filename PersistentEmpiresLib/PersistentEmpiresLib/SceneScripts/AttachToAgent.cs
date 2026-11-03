@@ -127,9 +127,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.AttachToAgentAux(attachedTo);
         }
 
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             Debug.Print("[USING LOG] AGENT USING " + this.GetType().Name);
             if (this.AttachedTo == null)
             {
@@ -163,9 +163,9 @@ namespace PersistentEmpiresLib.SceneScripts
             this.AttachedTo = attachableAgent;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "Attach";
+            return new TaleWorlds.Localization.TextObject("Attach");
         }
 
         public bool IsStray()
@@ -207,8 +207,11 @@ namespace PersistentEmpiresLib.SceneScripts
             }*/
         }
 
-        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
+        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, int affectorWeaponSlotOrMissileIndex, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage, out float finalDamage, out float fireDamage, out float modifiedFireDamage)
         {
+            finalDamage = damage;
+            fireDamage = -1f;
+            modifiedFireDamage = -1f;
             reportDamage = true;
             MissionWeapon missionWeapon = weapon;
             WeaponComponentData currentUsageItem = missionWeapon.CurrentUsageItem;

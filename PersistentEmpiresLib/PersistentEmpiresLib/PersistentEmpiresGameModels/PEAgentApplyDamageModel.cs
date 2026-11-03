@@ -46,8 +46,10 @@ namespace PersistentEmpiresLib.PersistentEmpiresGameModels
             return base.CanWeaponDismount(attackerAgent, attackerWeapon, blow, collisionData);
         }
 
-        public override float CalculateDamage(in AttackInformation attackInformation, in AttackCollisionData collisionData, in MissionWeapon weapon, float baseDamage)
+        public override float ApplyDamageAmplifications(in AttackInformation attackInformation, in AttackCollisionData collisionData, float baseDamage)
         {
+            // v1.4.8: CalculateDamage is no longer overridable (#40); PE logic moved into the first hook of the chain.
+            MissionWeapon weapon = attackInformation.AttackerWeapon;
             // if(WoundingBehavior.Instance.WoundingEnabled && WoundingBehavior.Instance.IsPlayerWounded)
 
             if (weapon.IsEmpty)

@@ -235,9 +235,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return forStandingPoint;
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return new TextObject("{=}Bloc's Ship").ToString();
+            return new TextObject("{=}Bloc's Ship");
         }
 
         public override bool IsStray()
@@ -285,8 +285,11 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
 
-        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
+        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, int affectorWeaponSlotOrMissileIndex, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage, out float finalDamage, out float fireDamage, out float modifiedFireDamage)
         {
+            finalDamage = damage;
+            fireDamage = -1f;
+            modifiedFireDamage = -1f;
             reportDamage = true;
             WeaponComponentData currentUsageItem = weapon.CurrentUsageItem;
 

@@ -48,6 +48,22 @@ namespace PersistentEmpiresLib.PersistentEmpiresGameModels
             return 0.5f;
         }
 
+        // v1.4.8: new abstract members, neutral values (no PE behavior existed for these)
+        public override float GetEquipmentStealthBonus(Agent agent)
+        {
+            return 0f;
+        }
+
+        public override float GetSneakAttackMultiplier(Agent agent, WeaponComponentData weapon)
+        {
+            return 1f;
+        }
+
+        public override float GetBreatheHoldMaxDuration(Agent agent, float baseBreatheHoldMaxDuration)
+        {
+            return baseBreatheHoldMaxDuration;
+        }
+
         public override float GetDismountResistance(Agent agent)
         {
             BasicCharacterObject characterObject = agent.Character;

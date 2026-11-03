@@ -412,7 +412,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 {
                     base.UserAgent.GetTargetPosition().IsNonZero();
                 }
-                ActionIndexValueCache currentActionValue = base.UserAgent.GetCurrentActionValue(0);
+                ActionIndexCache currentActionValue = base.UserAgent.GetCurrentAction(0);
                 switch (this._state)
                 {
                     case PE_AnimationPoint.State.NotUsing:
@@ -462,7 +462,7 @@ namespace PersistentEmpiresLib.SceneScripts
                             }
                             this.SimulateAnimations(dt2);
                         }
-                        if (!this.IsArriveActionFinished && (this.ArriveActionCode == ActionIndexCache.act_none || base.UserAgent.GetCurrentActionValue(0) != this.ArriveActionCode))
+                        if (!this.IsArriveActionFinished && (this.ArriveActionCode == ActionIndexCache.act_none || base.UserAgent.GetCurrentAction(0) != this.ArriveActionCode))
                         {
                             this.IsArriveActionFinished = true;
                             this.AddItemsToAgent();
@@ -494,7 +494,7 @@ namespace PersistentEmpiresLib.SceneScripts
             }
             else if (this._pairState == PE_AnimationPoint.PairState.NoPair && pairEntityUsers.Count >= this.MinUserToStartInteraction && this.IsRotationCorrectDuringUsage())
             {
-                this._lastAction = base.UserAgent.GetCurrentActionValue(0);
+                this._lastAction = base.UserAgent.GetCurrentAction(0);
                 if (this._startPairAnimationWithGreeting)
                 {
                     this._pairState = PE_AnimationPoint.PairState.BecomePair;
@@ -520,7 +520,7 @@ namespace PersistentEmpiresLib.SceneScripts
                     base.UserAgent.SetActionChannel(1, greetingActionId, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
                 }
             }
-            else if (this._pairState == PE_AnimationPoint.PairState.Greeting && base.UserAgent.GetCurrentActionValue(1) == ActionIndexCache.act_none)
+            else if (this._pairState == PE_AnimationPoint.PairState.Greeting && base.UserAgent.GetCurrentAction(1) == ActionIndexCache.act_none)
             {
                 this._pairState = PE_AnimationPoint.PairState.StartPairAnimation;
             }
@@ -584,9 +584,9 @@ namespace PersistentEmpiresLib.SceneScripts
         }
 
         // Token: 0x06000244 RID: 580 RVA: 0x0000F764 File Offset: 0x0000D964
-        public override void OnUse(Agent userAgent)
+        public override void OnUse(Agent userAgent, sbyte agentBoneIndex)
         {
-            base.OnUse(userAgent);
+            base.OnUse(userAgent, agentBoneIndex);
             this._equipmentIndexMainHand = base.UserAgent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
             this._equipmentIndexOffHand = base.UserAgent.GetWieldedItemIndex(Agent.HandIndex.OffHand);
             this._state = PE_AnimationPoint.State.NotUsing;
@@ -631,7 +631,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 }
                 else if (this.IsArriveActionFinished)
                 {
-                    ActionIndexValueCache currentActionValue = base.UserAgent.GetCurrentActionValue(0);
+                    ActionIndexCache currentActionValue = base.UserAgent.GetCurrentAction(0);
                     if (currentActionValue != this.LeaveActionCode && !base.UserAgent.ActionSet.AreActionsAlternatives(currentActionValue, this.LeaveActionCode))
                     {
                         base.UserAgent.SetActionChannel(0, this.LeaveActionCode, false, (ulong)((long)base.UserAgent.GetCurrentActionPriority(0)), 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
@@ -639,7 +639,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 }
                 else
                 {
-                    ActionIndexValueCache currentActionValue2 = userAgent.GetCurrentActionValue(0);
+                    ActionIndexCache currentActionValue2 = userAgent.GetCurrentAction(0);
                     if (currentActionValue2 == this.ArriveActionCode && this.ArriveActionCode != ActionIndexCache.act_none)
                     {
                         MBActionSet actionSet = userAgent.ActionSet;
@@ -654,7 +654,7 @@ namespace PersistentEmpiresLib.SceneScripts
                 }
             }
             this._pairState = PE_AnimationPoint.PairState.NoPair;
-            this._lastAction = ActionIndexValueCache.act_none;
+            this._lastAction = ActionIndexCache.act_none;
             if (base.UserAgent.GetLookAgent() != null)
             {
                 base.UserAgent.ResetLookAgent();
@@ -927,7 +927,7 @@ namespace PersistentEmpiresLib.SceneScripts
         private List<PE_AnimationPoint.ItemForBone> _itemsForBones;
 
         // Token: 0x04000118 RID: 280
-        private ActionIndexValueCache _lastAction;
+        private ActionIndexCache _lastAction;
 
         // Token: 0x04000119 RID: 281
         private Timer _greetingTimer;

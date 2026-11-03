@@ -186,9 +186,9 @@ namespace PersistentEmpiresLib.SceneScripts
             return new TextObject("");
         }
 
-        public override string GetDescriptionText(GameEntity gameEntity = null)
+        public override TaleWorlds.Localization.TextObject GetDescriptionText(WeakGameEntity gameEntity)
         {
-            return "";
+            return new TaleWorlds.Localization.TextObject("");
         }
     }
 }
