@@ -1,0 +1,32 @@
+<Project>
+  <!-- Outputs go to <repo>/publish (git-ignored), never into the game directory. -->
+  <PropertyGroup>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\'))</RepoRoot>
+    <BaseIntermediateOutputPath>$(RepoRoot)publish\PE.TestAgent\obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>PE.TestAgent</AssemblyName>
+    <RootNamespace>PE.TestAgent</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <OutputPath>$(RepoRoot)publish\PE.TestAgent\bin\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="TaleWorlds.Core"><HintPath>$(BannerlordServerBin)\TaleWorlds.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Library"><HintPath>$(BannerlordServerBin)\TaleWorlds.Library.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.DotNet"><HintPath>$(BannerlordServerBin)\TaleWorlds.DotNet.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Engine"><HintPath>$(BannerlordServerBin)\TaleWorlds.Engine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ModuleManager"><HintPath>$(BannerlordServerBin)\TaleWorlds.ModuleManager.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.MountAndBlade"><HintPath>$(BannerlordServerBin)\TaleWorlds.MountAndBlade.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Module\SubModule.xml" />
+  </ItemGroup>
+  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+</Project>
