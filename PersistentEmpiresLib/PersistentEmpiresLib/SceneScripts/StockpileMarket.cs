@@ -94,14 +94,14 @@ namespace PersistentEmpiresLib.SceneScripts
         public static int MAX_STOCK_COUNT = 1000;
         public string XmlFile = "examplemarket"; // itemId*minimum*maximum,itemId*minimum*maximum
         public string ModuleFolder = Main.ModuleName;
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get
             {
                 return false;
             }
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get
             {

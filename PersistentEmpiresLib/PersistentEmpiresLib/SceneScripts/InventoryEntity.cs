@@ -77,8 +77,8 @@ namespace PersistentEmpiresLib.SceneScripts
         private static readonly ActionIndexCache act_pickup_from_left_up_horseback_end = ActionIndexCache.Create("act_pickup_from_left_up_horseback_end");
         private static readonly ActionIndexCache act_pickup_from_left_up_horseback_left_begin = ActionIndexCache.Create("act_pickup_from_left_up_horseback_left_begin");
         private static readonly ActionIndexCache act_pickup_from_left_up_horseback_left_end = ActionIndexCache.Create("act_pickup_from_left_up_horseback_left_end");
-        protected override bool LockUserFrames { get => false; }
-        protected override bool LockUserPositions { get => false; }
+        public override bool LockUserFrames { get => false; }
+        public override bool LockUserPositions { get => false; }
 
         private string GenerateId()
         {

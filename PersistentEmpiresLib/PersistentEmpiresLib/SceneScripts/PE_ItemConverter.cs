@@ -24,14 +24,14 @@ namespace PersistentEmpiresLib.SceneScripts
         public int RequiredSkill = 10;
         public bool HideItemOnAnimation = false;
         private EquipmentIndex HiddenItemIndex = EquipmentIndex.None;
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get
             {
                 return true;
             }
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get
             {

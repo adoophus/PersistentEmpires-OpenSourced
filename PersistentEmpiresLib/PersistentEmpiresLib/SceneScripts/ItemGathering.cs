@@ -37,14 +37,14 @@ namespace PersistentEmpiresLib.SceneScripts
         private int CurrentCount = 0;
         private ItemObject DropsItemObject;
 
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get
             {
                 return false;
             }
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get
             {

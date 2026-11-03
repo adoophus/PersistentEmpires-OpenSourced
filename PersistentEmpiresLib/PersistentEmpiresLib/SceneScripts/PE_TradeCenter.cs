@@ -23,14 +23,14 @@ namespace PersistentEmpiresLib.SceneScripts
         public int CastleIndex = 0;
         public int RandomMinStock = 10;
         public int RandomMaxStock = 300;
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get
             {
                 return false;
             }
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get
             {

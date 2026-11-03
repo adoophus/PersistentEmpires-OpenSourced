@@ -23,8 +23,8 @@ namespace PersistentEmpiresLib.SceneScripts
         public int CaptureDuration = 5;
         public string CaptureItem = "pe_banner";
 
-        protected override bool LockUserFrames { get => false; }
-        protected override bool LockUserPositions { get => false; }
+        public override bool LockUserFrames { get => false; }
+        public override bool LockUserPositions { get => false; }
 
         public long UseStartedAt { get; private set; }
         public long UseWillEndAt { get; private set; }

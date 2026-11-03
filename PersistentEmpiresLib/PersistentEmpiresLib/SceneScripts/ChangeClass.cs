@@ -26,11 +26,11 @@ namespace PersistentEmpiresLib.SceneScripts
         public long UseStartedAt { get; private set; }
         public long UseWillEndAt { get; private set; }
 
-        protected override bool LockUserFrames
+        public override bool LockUserFrames
         {
             get => false;
         }
-        protected override bool LockUserPositions
+        public override bool LockUserPositions
         {
             get => false;
         }
