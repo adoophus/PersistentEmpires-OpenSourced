@@ -7,11 +7,11 @@ The decision is in `docs/headless-feasibility.md` and #1:
 - **Adopt:** Tier A (pure-logic unit tests) and Tier B (in-process server harness).
 - **Defer:** Tier C (real-client automation).
 - **Reject:** Tier D (protocol fake client).
-- The owner chose **SQLite** for persistence tests and **port to v1.4.8 first**.
+- The owner chose **SQLite** for persistence tests and **port to v1.4.8 first** (decisions recorded on #1).
 
 ## Phase 1: harness
 Ordered by dependency:
-1. **Build plumbing.** Game-path MSBuild properties, `scripts/setup.ps1`, `scripts/build.ps1` (PR #31).
+1. **Build plumbing (done, PR #31).** Game-path MSBuild properties, `scripts/setup.ps1`, `scripts/build.ps1`.
 2. **v1.4.8 compile port.**
    - Lib and Harmony first, one PR per root cause (`game-update` issues #32–#43).
    - Then the downstream projects (#44).

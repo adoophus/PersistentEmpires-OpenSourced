@@ -27,7 +27,7 @@ Persistent Empires is a Bannerlord multiplayer mod. We are porting it to the cur
 scripts/setup.ps1 -ServerPath D:\bannerlord-headless\server   # writes Directory.Build.props.user (about 0.3 s)
 scripts/build.ps1                                              # exit 0 ok, 1 build failure (about 3 s)
 ```
-These scripts arrive with PR #31. Server start/stop, `scripts/test.ps1` and `PE.TestHost` don't exist yet (see `docs/roadmap.md`). Update this section as each one lands.
+`scripts/server.ps1`, `scripts/test.ps1` and `PE.TestHost` don't exist yet (see `docs/roadmap.md`). Update this section as each one lands.
 
 ## Keeping docs current
 - When a task starts, **overwrite** `.claude/current-task.md` with it. Don't append, and remove whatever is no longer relevant. When the task is done, delete the file or replace it with the next task.

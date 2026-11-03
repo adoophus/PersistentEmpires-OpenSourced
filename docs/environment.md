@@ -31,3 +31,4 @@ cd D:\bannerlord-headless\server\bin\Win64_Shipping_Server
 - stdout is empty. Logs go to `C:\ProgramData\Mount and Blade II Bannerlord\logs\rgl_log_<pid>.txt` (errors in `rgl_log_errors_<pid>.txt`).
 - Measured: module data loads by about 3 s, and the lobby login happens at about 4 s.
 - When grepping logs, redact long base64 strings.
+- Stop it with `Get-Process DedicatedCustomServer.Starter -ErrorAction SilentlyContinue | Stop-Process -Force`. Once `scripts/server.ps1` exists, use `stop` instead.
