@@ -173,8 +173,11 @@ namespace PersistentEmpiresLib.SceneScripts
             return new TaleWorlds.Localization.TextObject("Horse Market");
         }
 
-        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
+        protected override bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, int affectorWeaponSlotOrMissileIndex, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage, out float finalDamage, out float fireDamage, out float modifiedFireDamage)
         {
+            finalDamage = damage;
+            fireDamage = -1f;
+            modifiedFireDamage = -1f;
             reportDamage = false;
             if (attackerAgent == null) return false;
             NetworkCommunicator player = attackerAgent.MissionPeer.GetNetworkPeer();
